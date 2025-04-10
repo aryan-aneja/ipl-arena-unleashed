@@ -32,7 +32,7 @@ const TeamCard: React.FC<TeamCardProps> = ({
   homeGround,
   players
 }) => {
-  // Determine if we're in dark mode
+  // Get dark mode state directly from HTML element to ensure it's always in sync
   const isDarkMode = document.documentElement.classList.contains('dark');
   
   return (
