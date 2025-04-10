@@ -33,11 +33,14 @@ const TeamCard: React.FC<TeamCardProps> = ({
         style={{ backgroundColor: primaryColor }} 
       />
       <CardHeader className="flex flex-col items-center text-center">
-        <div className="w-24 h-24 mb-2 overflow-hidden flex items-center justify-center">
+        <div className="w-24 h-24 mb-2 overflow-hidden flex items-center justify-center bg-gray-50 rounded-full border-2" style={{ borderColor: primaryColor }}>
           <img 
             src={logo} 
             alt={`${name} logo`} 
-            className="h-auto max-w-full object-contain"
+            className="h-auto max-w-full object-contain p-2"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://via.placeholder.com/100?text=" + code;
+            }}
           />
         </div>
         <h3 className="text-xl font-bold">{name}</h3>
@@ -61,6 +64,7 @@ const TeamCard: React.FC<TeamCardProps> = ({
           <Button 
             variant="ghost" 
             className="w-full flex items-center justify-between hover:bg-ipl-blue/10"
+            style={{ color: primaryColor }}
           >
             <span>Team Details</span>
             <ChevronRight size={16} />

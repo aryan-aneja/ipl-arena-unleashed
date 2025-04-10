@@ -26,19 +26,12 @@ import {
 const Matches = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTeam, setSelectedTeam] = useState<string>('all');
-  const [selectedType, setSelectedType] = useState<'all' | 'upcoming' | 'completed'>('all');
-  const [filteredMatches, setFilteredMatches] = useState(matches);
+  const [filteredMatches, setFilteredMatches] = useState(matches.filter(match => !match.isCompleted));
   
-  // Filter matches based on selected filters
+  // Filter matches based on selected filters - only show upcoming
   useEffect(() => {
-    let filtered = [...matches];
-    
-    // Filter by match type
-    if (selectedType === 'upcoming') {
-      filtered = filtered.filter(match => !match.isCompleted);
-    } else if (selectedType === 'completed') {
-      filtered = filtered.filter(match => match.isCompleted);
-    }
+    // Start with upcoming matches only
+    let filtered = matches.filter(match => !match.isCompleted);
     
     // Filter by team
     if (selectedTeam !== 'all') {
@@ -61,13 +54,12 @@ const Matches = () => {
     }
     
     setFilteredMatches(filtered);
-  }, [selectedDate, selectedTeam, selectedType]);
+  }, [selectedDate, selectedTeam]);
   
   // Clear all filters
   const handleClearFilters = () => {
     setSelectedDate(undefined);
     setSelectedTeam('all');
-    setSelectedType('all');
   };
   
   return (
@@ -78,9 +70,9 @@ const Matches = () => {
         {/* Header */}
         <div className="bg-ipl-purple text-white py-12">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">IPL Matches</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">Upcoming IPL Matches</h1>
             <p className="max-w-2xl mx-auto text-lg">
-              View all IPL 2025 matches, find upcoming fixtures, and book tickets for live games.
+              View all upcoming IPL 2025 matches and book tickets for live games.
             </p>
           </div>
         </div>
@@ -90,23 +82,6 @@ const Matches = () => {
           <div className="container mx-auto py-6 px-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex flex-wrap gap-4 items-center">
-                {/* Match Type Filter */}
-                <div>
-                  <Select
-                    value={selectedType}
-                    onValueChange={(value) => setSelectedType(value as any)}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Match Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Matches</SelectItem>
-                      <SelectItem value="upcoming">Upcoming Matches</SelectItem>
-                      <SelectItem value="completed">Completed Matches</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
                 {/* Team Filter */}
                 <div>
                   <Select
@@ -120,7 +95,17 @@ const Matches = () => {
                       <SelectItem value="all">All Teams</SelectItem>
                       {teams.map(team => (
                         <SelectItem key={team.id} value={team.id.toString()}>
-                          {team.name}
+                          <div className="flex items-center">
+                            <img 
+                              src={team.logo} 
+                              alt={team.name}
+                              className="w-5 h-5 mr-2" 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://via.placeholder.com/20?text=T";
+                              }}
+                            />
+                            {team.name}
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -171,7 +156,7 @@ const Matches = () => {
         <div className="container mx-auto py-8 px-4">
           {filteredMatches.length === 0 ? (
             <div className="text-center py-12">
-              <h3 className="text-xl font-semibold mb-2">No matches found</h3>
+              <h3 className="text-xl font-semibold mb-2">No upcoming matches found</h3>
               <p className="text-gray-600">
                 Try adjusting your filters or select a different date to find matches.
               </p>

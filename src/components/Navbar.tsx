@@ -1,20 +1,51 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, X, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // For demo purposes
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+  
+  const navigate = useNavigate();
+
+  // Check login status on component mount
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const loginStatus = localStorage.getItem('isLoggedIn') === 'true';
+      setIsLoggedIn(loginStatus);
+      
+      if (loginStatus) {
+        try {
+          const userData = JSON.parse(localStorage.getItem('user') || '{}');
+          setUserName(userData.name || 'User');
+        } catch (e) {
+          console.error('Error parsing user data', e);
+        }
+      }
+    };
+    
+    checkLoginStatus();
+    // Add event listener for storage changes
+    window.addEventListener('storage', checkLoginStatus);
+    
+    return () => {
+      window.removeEventListener('storage', checkLoginStatus);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // For demo purposes
-  const toggleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    setUserName('');
+    navigate('/');
   };
 
   return (
@@ -22,6 +53,16 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-3">
         <nav className="flex justify-between items-center">
           <Link to="/" className="flex items-center">
+            <div className="w-10 h-10 mr-2 bg-white rounded-full flex items-center justify-center overflow-hidden">
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/en/8/84/Indian_Premier_League_Official_Logo.svg" 
+                alt="IPL Logo" 
+                className="w-8 h-8"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://via.placeholder.com/40?text=IPL";
+                }}
+              />
+            </div>
             <div className="text-2xl font-bold">
               <span className="text-ipl-orange">IPL</span> Arena
             </div>
@@ -34,12 +75,15 @@ const Navbar = () => {
             <Link to="/matches" className="hover:text-ipl-orange transition">Matches</Link>
             {isLoggedIn ? (
               <div className="flex items-center gap-4">
-                <span className="text-sm text-ipl-gold">Welcome, Fan!</span>
+                <Link to="/dashboard" className="text-ipl-gold hover:text-white transition">
+                  Dashboard
+                </Link>
                 <Button 
                   variant="outline" 
-                  className="border-ipl-gold text-ipl-gold hover:bg-ipl-gold hover:text-black"
-                  onClick={toggleLogin}
+                  className="border-ipl-gold text-ipl-gold hover:bg-ipl-gold hover:text-black flex items-center"
+                  onClick={handleLogout}
                 >
+                  <LogOut size={16} className="mr-2" />
                   Log Out
                 </Button>
               </div>
@@ -94,15 +138,22 @@ const Navbar = () => {
               </Link>
               {isLoggedIn ? (
                 <div className="py-2 flex flex-col gap-2">
-                  <span className="text-sm text-ipl-gold">Welcome, Fan!</span>
+                  <Link 
+                    to="/dashboard"
+                    className="text-ipl-gold hover:text-white transition"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
                   <Button 
                     variant="outline" 
-                    className="border-ipl-gold text-ipl-gold hover:bg-ipl-gold hover:text-black"
+                    className="border-ipl-gold text-ipl-gold hover:bg-ipl-gold hover:text-black flex items-center"
                     onClick={() => {
-                      toggleLogin();
+                      handleLogout();
                       setIsMenuOpen(false);
                     }}
                   >
+                    <LogOut size={16} className="mr-2" />
                     Log Out
                   </Button>
                 </div>

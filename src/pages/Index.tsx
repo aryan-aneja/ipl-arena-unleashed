@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
 
 const Index = () => {
-  // Filter for featured upcoming matches (limited to 3)
+  // Filter for upcoming matches only (limited to 3)
   const upcomingMatches = matches
     .filter(match => !match.isCompleted)
     .slice(0, 3);
