@@ -14,6 +14,9 @@ interface TeamCardProps {
   captain: string;
   titles: number;
   description?: string;
+  owner?: string;
+  homeGround?: string;
+  players?: string[];
 }
 
 const TeamCard: React.FC<TeamCardProps> = ({
@@ -24,40 +27,93 @@ const TeamCard: React.FC<TeamCardProps> = ({
   primaryColor,
   captain,
   titles,
-  description
+  description,
+  owner,
+  homeGround,
+  players
 }) => {
+  // Determine if we're in dark mode
+  const isDarkMode = document.documentElement.classList.contains('dark');
+  
   return (
-    <Card className="overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col">
+    <Card className={`overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col ${
+      isDarkMode ? 'bg-gray-800 border-gray-700' : ''
+    }`}>
       <div 
         className="h-2" 
         style={{ backgroundColor: primaryColor }} 
       />
       <CardHeader className="flex flex-col items-center text-center">
-        <div className="w-24 h-24 mb-2 overflow-hidden flex items-center justify-center bg-gray-50 rounded-full border-2" style={{ borderColor: primaryColor }}>
+        <div 
+          className={`w-24 h-24 mb-2 overflow-hidden flex items-center justify-center rounded-full border-2 ${
+            isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
+          }`} 
+          style={{ borderColor: primaryColor }}
+        >
           <img 
             src={logo} 
             alt={`${name} logo`} 
             className="h-auto max-w-full object-contain p-2"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://via.placeholder.com/100?text=" + code;
+              (e.target as HTMLImageElement).src = `https://via.placeholder.com/100?text=${code}`;
             }}
           />
         </div>
         <h3 className="text-xl font-bold">{name}</h3>
-        <div className="text-sm text-muted-foreground">{code}</div>
+        <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}`}>
+          {code}
+        </div>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col">
         <div className="mb-4 flex-grow">
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <div className="text-muted-foreground">Captain:</div>
+            <div className={isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}>Captain:</div>
             <div className="font-medium text-right">{captain}</div>
-            <div className="text-muted-foreground">Titles:</div>
+            <div className={isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}>Titles:</div>
             <div className="font-medium text-right">{titles}</div>
+            {owner && (
+              <>
+                <div className={isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}>Owner:</div>
+                <div className="font-medium text-right truncate" title={owner}>{owner}</div>
+              </>
+            )}
+            {homeGround && (
+              <>
+                <div className={isDarkMode ? 'text-gray-400' : 'text-muted-foreground'}>Home:</div>
+                <div className="font-medium text-right truncate" title={homeGround}>
+                  {homeGround.split(',')[0]}
+                </div>
+              </>
+            )}
           </div>
           {description && (
-            <p className="text-sm text-muted-foreground mt-3 line-clamp-2">
+            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'} mt-3 line-clamp-2`}>
               {description}
             </p>
+          )}
+          {players && players.length > 0 && (
+            <div className="mt-3">
+              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-muted-foreground'} mb-1`}>
+                Key Players:
+              </p>
+              <div className="flex flex-wrap gap-1">
+                {players.slice(0, 3).map((player, index) => (
+                  <span 
+                    key={index}
+                    className="text-xs px-2 py-0.5 rounded-full"
+                    style={{ 
+                      backgroundColor: `${primaryColor}20`, 
+                      color: primaryColor 
+                    }}
+                  >
+                    {player}
+                  </span>
+                ))}
+                {players.length > 3 && (
+                  <span className="text-xs text-gray-400">+{players.length - 3}</span>
+                )}
+              </div>
+            </div>
           )}
         </div>
         <Link to={`/teams/${id}`}>
