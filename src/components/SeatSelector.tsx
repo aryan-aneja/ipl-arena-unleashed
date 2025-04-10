@@ -40,12 +40,12 @@ const SeatSelector: React.FC<SeatSelectorProps> = ({ matchId, category, onSelect
     const updatedSeats = seats.map(seat => {
       if (seat.id === seatId) {
         if (seat.status === 'available') {
-          const updatedSeat = { ...seat, status: 'selected' };
+          const updatedSeat = { ...seat, status: 'selected' as const };
           setSelectedSeats([...selectedSeats, updatedSeat]);
           return updatedSeat;
         } else if (seat.status === 'selected') {
           setSelectedSeats(selectedSeats.filter(s => s.id !== seatId));
-          return { ...seat, status: 'available' };
+          return { ...seat, status: 'available' as const };
         }
       }
       return seat;

@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -11,7 +11,7 @@ import SeatSelector from '@/components/SeatSelector';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
-import { ArrowLeft, CalendarDays, Clock, MapPin, CreditCard, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CalendarDays, Clock, MapPin, CreditCard, AlertCircle, CheckCircle2, QrCode, Download } from 'lucide-react';
 import { toast } from "@/components/ui/use-toast";
 
 interface Seat {
@@ -20,7 +20,7 @@ interface Seat {
   number: number;
   category: string;
   price: number;
-  status: string;
+  status: 'available' | 'reserved' | 'selected';
 }
 
 const BookTickets = () => {
@@ -32,6 +32,8 @@ const BookTickets = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [showQrCode, setShowQrCode] = useState(false);
+  const ticketRef = useRef<HTMLDivElement>(null);
   
   // Form data for payment
   const [formData, setFormData] = useState({
@@ -113,6 +115,24 @@ const BookTickets = () => {
       return;
     }
     
+    if (paymentMethod === 'upi') {
+      setShowQrCode(true);
+      setTimeout(() => {
+        setShowQrCode(false);
+        setIsProcessing(true);
+        setTimeout(() => {
+          setIsProcessing(false);
+          setIsPaymentComplete(true);
+          setCurrentStep(3);
+          toast({
+            title: "Payment Successful!",
+            description: "Your tickets have been booked successfully.",
+          });
+        }, 2000);
+      }, 3000);
+      return;
+    }
+    
     if (paymentMethod === 'credit' || paymentMethod === 'debit') {
       // Validate credit/debit card details
       if (!formData.cardName || !formData.cardNumber || !formData.expiry || !formData.cvv) {
@@ -138,6 +158,25 @@ const BookTickets = () => {
         description: "Your tickets have been booked successfully.",
       });
     }, 2000);
+  };
+
+  // Function to download the ticket as PDF (simulated)
+  const downloadTicket = () => {
+    if (!ticketRef.current) return;
+    
+    toast({
+      title: "Downloading Ticket",
+      description: "Your e-ticket is being downloaded.",
+    });
+    
+    // In a real implementation, you would use a library like html2canvas + jspdf
+    // to convert the ticket DOM element to a PDF
+    setTimeout(() => {
+      toast({
+        title: "Download Complete",
+        description: "Your e-ticket has been downloaded successfully.",
+      });
+    }, 1500);
   };
   
   // Reset booking when payment is completed
@@ -222,22 +261,45 @@ const BookTickets = () => {
               {/* Select Ticket Category */}
               {!selectedCategory ? (
                 <div>
-                  <h2 className="text-xl font-bold mb-4">Select Ticket Category</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <h2 className="text-xl font-bold mb-6">Select Ticket Category</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {match.tickets.priceCategories.map((category) => (
                       <Card 
                         key={category.name} 
-                        className="p-4 cursor-pointer hover:border-ipl-blue transition-colors"
+                        className={`p-6 cursor-pointer hover:shadow-lg transition-all transform hover:-translate-y-1 border-2 ${
+                          selectedCategory === category.name.toLowerCase() ? 'border-ipl-blue' : 'border-transparent'
+                        }`}
                         onClick={() => handleCategorySelect(category.name.toLowerCase())}
                       >
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h3 className="font-bold text-lg">{category.name}</h3>
-                            <p className="text-gray-500">Best view and experience</p>
+                        <div className="flex flex-col h-full">
+                          <div className="mb-4">
+                            <div className={`w-full h-1 mb-2 bg-${
+                              category.name === 'Premium' ? 'ipl-gold' : 
+                              category.name === 'Executive' ? 'ipl-blue' : 'ipl-green'
+                            }`}></div>
+                            <h3 className="font-bold text-xl">{category.name}</h3>
+                            <p className="text-gray-500 my-2">
+                              {category.name === 'Premium' 
+                                ? 'Best seats with perfect view and comfort' 
+                                : category.name === 'Executive'
+                                ? 'Good view with covered seating'
+                                : 'Economic seating with decent view'
+                              }
+                            </p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-2xl font-bold">₹{category.price.toLocaleString()}</p>
-                            <p className="text-sm text-gray-500">per ticket</p>
+                          <div className="mt-auto">
+                            <div className="flex justify-between items-center">
+                              <p className="text-sm text-gray-500">Starting from</p>
+                              <p className="text-2xl font-bold">₹{category.price.toLocaleString()}</p>
+                            </div>
+                            <div className="w-full mt-4">
+                              <Button 
+                                variant="outline" 
+                                className="w-full border-ipl-blue text-ipl-blue hover:bg-ipl-blue hover:text-white"
+                              >
+                                Select {category.name}
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </Card>
@@ -294,9 +356,21 @@ const BookTickets = () => {
                       </div>
                     </RadioGroup>
                   </div>
+
+                  {/* QR Code for UPI payment */}
+                  {showQrCode && paymentMethod === 'upi' && (
+                    <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg bg-white mb-6">
+                      <QrCode className="w-32 h-32 mb-4 text-ipl-blue" />
+                      <p className="text-center mb-2 font-medium">Scan to pay ₹{totalPrice.toLocaleString()}</p>
+                      <p className="text-sm text-gray-500">Payment will be processed automatically once completed</p>
+                      <div className="mt-4 animate-pulse bg-blue-50 text-center rounded p-2 w-full">
+                        <p className="text-sm text-ipl-blue">Waiting for payment...</p>
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Card details form (shown only for credit/debit card options) */}
-                  {(paymentMethod === 'credit' || paymentMethod === 'debit') && (
+                  {(paymentMethod === 'credit' || paymentMethod === 'debit') && !showQrCode && (
                     <form onSubmit={handlePaymentSubmit} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="cardName">Cardholder Name</Label>
@@ -348,10 +422,9 @@ const BookTickets = () => {
                   )}
                   
                   {/* UPI/Wallet/NetBanking options would go here in a real app */}
-                  {(paymentMethod === 'upi' || paymentMethod === 'netbanking' || paymentMethod === 'wallet') && (
+                  {(paymentMethod === 'netbanking' || paymentMethod === 'wallet') && !showQrCode && (
                     <div className="rounded-md border border-gray-200 p-6 text-center bg-gray-50">
                       <p className="mb-2">In a real application, this would show:</p>
-                      {paymentMethod === 'upi' && <p>UPI ID input or QR code scanner</p>}
                       {paymentMethod === 'netbanking' && <p>Bank selection options</p>}
                       {paymentMethod === 'wallet' && <p>Digital wallet login options</p>}
                     </div>
@@ -366,7 +439,7 @@ const BookTickets = () => {
                     </Button>
                     <Button 
                       onClick={handlePaymentSubmit} 
-                      disabled={isProcessing || !paymentMethod}
+                      disabled={isProcessing || !paymentMethod || showQrCode}
                       className="bg-ipl-blue hover:bg-ipl-blue/90"
                     >
                       {isProcessing ? (
@@ -441,26 +514,32 @@ const BookTickets = () => {
           
           {/* Step 3: Confirmation */}
           {currentStep === 3 && (
-            <div className="max-w-2xl mx-auto text-center">
+            <div className="max-w-2xl mx-auto">
               <div className="mb-8 flex justify-center">
                 <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-4">
                   <CheckCircle2 className="h-10 w-10 text-green-600" />
                 </div>
               </div>
               
-              <h2 className="text-2xl font-bold mb-2">Booking Confirmed!</h2>
-              <p className="text-gray-600 mb-8">
+              <h2 className="text-2xl font-bold mb-2 text-center">Booking Confirmed!</h2>
+              <p className="text-gray-600 mb-8 text-center">
                 Your tickets have been booked successfully. An email with your e-tickets has been sent to your registered email address.
               </p>
               
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8 text-left">
-                <h3 className="font-semibold mb-4 text-center">Booking Details</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Match</p>
-                    <p className="font-medium">{homeTeam?.name} vs {awayTeam?.name}</p>
+              <div ref={ticketRef} className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+                <div className="border-b border-dashed border-gray-300 pb-4 mb-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-bold text-xl">IPL 2025</h3>
+                      <p className="text-ipl-blue font-medium">{homeTeam?.name} vs {awayTeam?.name}</p>
+                    </div>
+                    <div className="h-20 w-20 flex items-center justify-center">
+                      <img src={homeTeam?.logo} alt={homeTeam?.name} className="h-16 w-16 object-contain" />
+                    </div>
                   </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 mb-4">
                   <div>
                     <p className="text-sm text-gray-500">Date & Time</p>
                     <p className="font-medium">{formattedDate}, {formattedTime}</p>
@@ -470,9 +549,13 @@ const BookTickets = () => {
                     <p className="font-medium">{match.venue}</p>
                   </div>
                   <div>
+                    <p className="text-sm text-gray-500">Category</p>
+                    <p className="font-medium capitalize">{selectedCategory}</p>
+                  </div>
+                  <div>
                     <p className="text-sm text-gray-500">Seats</p>
-                    <p className="font-medium capitalize">
-                      {selectedCategory} - {selectedSeats.length} tickets
+                    <p className="font-medium">
+                      {selectedSeats.map(seat => `R${seat.row}-${seat.number}`).join(', ')}
                     </p>
                   </div>
                   <div>
@@ -484,10 +567,18 @@ const BookTickets = () => {
                     <p className="font-medium">₹{(totalPrice + parseInt((totalPrice * 0.05).toFixed(0))).toLocaleString()}</p>
                   </div>
                 </div>
+                
+                <div className="bg-gray-50 p-3 rounded text-center">
+                  <p className="text-sm">Please show this ticket at the entrance. Have a great match day!</p>
+                </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button className="bg-ipl-blue hover:bg-ipl-blue/90">
+                <Button 
+                  className="bg-ipl-blue hover:bg-ipl-blue/90 flex items-center"
+                  onClick={downloadTicket}
+                >
+                  <Download className="mr-2 h-4 w-4" />
                   Download E-Tickets
                 </Button>
                 <Link to="/">

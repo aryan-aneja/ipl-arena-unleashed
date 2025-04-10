@@ -47,12 +47,21 @@ const Index = () => {
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img 
-              src="https://images.unsplash.com/photo-1624458198744-0bd9348e9e0e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=500" 
-              alt="IPL Stadium" 
-              className="rounded-lg shadow-lg max-w-full h-auto animate-bounce-subtle"
-              style={{ maxHeight: '350px' }}
-            />
+            <div className="relative rounded-lg overflow-hidden shadow-lg">
+              <video 
+                autoPlay 
+                muted 
+                loop 
+                className="w-full h-auto max-h-[350px] object-cover"
+              >
+                <source src="https://player.vimeo.com/external/477617569.sd.mp4?s=d25f7c83113d9e513a8bfe41cc688a4117d61ee8&profile_id=165&oauth2_token_id=57447761" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <p className="text-sm font-medium">IPL 2025 - Coming Soon</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

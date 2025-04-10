@@ -39,7 +39,7 @@ const Login = () => {
         // In a real app, we would set authentication tokens/state
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('user', JSON.stringify({ id: user.id, name: user.name }));
-        navigate('/');
+        navigate('/'); // Redirect to homepage/dashboard
       } else {
         setError('Invalid email or password');
       }

@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import Teams from "./pages/Teams";
 import Matches from "./pages/Matches";
 import BookTickets from "./pages/BookTickets";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/book-tickets/:matchId" element={<BookTickets />} />
