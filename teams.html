@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teams - IPL Arena Unleashed</title>
+    <meta name="description" content="Lovable Generated Project" />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="Teams - IPL Arena Unleashed" />
+    <meta property="og:description" content="Explore IPL Teams" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  </head>
+
+  <body>
+    <!-- App Container -->
+    <div id="app">
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a href="index.html">
+              <span class="text-ipl-orange">IPL</span> Arena
+            </a>
+          </div>
+          <div class="navbar-menu" id="navbar-menu">
+            <a href="index.html" class="navbar-item">Home</a>
+            <a href="teams.html" class="navbar-item active">Teams</a>
+            <a href="matches.html" class="navbar-item">Matches</a>
+            <div class="navbar-end">
+              <a href="login.html" class="btn btn-outline">Login</a>
+              <a href="signup.html" class="btn btn-primary ml-4">Sign Up</a>
+            </div>
+          </div>
+          <button class="navbar-burger" id="navbar-burger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="container">
+        <h1 class="text-3xl font-bold mb-8">IPL Teams</h1>
+        
+        <div class="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6 mb-8">
+          <!-- Mumbai Indians -->
+          <div class="card team-card overflow-hidden">
+            <div class="team-card-header" style="background-color: #0078BC;">
+              <div class="team-logo-container">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Medium/MI.png" alt="Mumbai Indians" class="team-logo">
+              </div>
+              <div class="team-info">
+                <h3 class="team-name">Mumbai Indians</h3>
+                <p class="team-details">5x IPL Champions</p>
+              </div>
+            </div>
+            <div class="team-stats">
+              <div class="stat">
+                <span class="stat-value">5</span>
+                <span class="stat-label">Titles</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">2013</span>
+                <span class="stat-label">First Win</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">234</span>
+                <span class="stat-label">Matches</span>
+              </div>
+            </div>
+            <div class="p-4 border-t">
+              <a href="#" class="btn btn-outline w-full" style="color: #0078BC; border-color: #0078BC;">
+                Team Details
+              </a>
+            </div>
+          </div>
+          
+          <!-- Chennai Super Kings -->
+          <div class="card team-card overflow-hidden">
+            <div class="team-card-header" style="background-color: #FFFF00;">
+              <div class="team-logo-container">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Medium/CSK.png" alt="Chennai Super Kings" class="team-logo">
+              </div>
+              <div class="team-info" style="color: #000000;">
+                <h3 class="team-name">Chennai Super Kings</h3>
+                <p class="team-details">5x IPL Champions</p>
+              </div>
+            </div>
+            <div class="team-stats">
+              <div class="stat">
+                <span class="stat-value">5</span>
+                <span class="stat-label">Titles</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">2010</span>
+                <span class="stat-label">First Win</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">212</span>
+                <span class="stat-label">Matches</span>
+              </div>
+            </div>
+            <div class="p-4 border-t">
+              <a href="#" class="btn btn-outline w-full" style="color: #FFFF00; border-color: #FFFF00;">
+                Team Details
+              </a>
+            </div>
+          </div>
+          
+          <!-- Royal Challengers Bangalore -->
+          <div class="card team-card overflow-hidden">
+            <div class="team-card-header" style="background-color: #EC1C24;">
+              <div class="team-logo-container">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Medium/RCB.png" alt="Royal Challengers Bangalore" class="team-logo">
+              </div>
+              <div class="team-info">
+                <h3 class="team-name">Royal Challengers Bangalore</h3>
+                <p class="team-details">0x IPL Champions</p>
+              </div>
+            </div>
+            <div class="team-stats">
+              <div class="stat">
+                <span class="stat-value">0</span>
+                <span class="stat-label">Titles</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">-</span>
+                <span class="stat-label">First Win</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">238</span>
+                <span class="stat-label">Matches</span>
+              </div>
+            </div>
+            <div class="p-4 border-t">
+              <a href="#" class="btn btn-outline w-full" style="color: #EC1C24; border-color: #EC1C24;">
+                Team Details
+              </a>
+            </div>
+          </div>
+          
+          <!-- Kolkata Knight Riders -->
+          <div class="card team-card overflow-hidden">
+            <div class="team-card-header" style="background-color: #3A225D;">
+              <div class="team-logo-container">
+                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/KKR/Logos/Medium/KKR.png" alt="Kolkata Knight Riders" class="team-logo">
+              </div>
+              <div class="team-info">
+                <h3 class="team-name">Kolkata Knight Riders</h3>
+                <p class="team-details">2x IPL Champions</p>
+              </div>
+            </div>
+            <div class="team-stats">
+              <div class="stat">
+                <span class="stat-value">2</span>
+                <span class="stat-label">Titles</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">2012</span>
+                <span class="stat-label">First Win</span>
+              </div>
+              <div class="stat">
+                <span class="stat-value">230</span>
+                <span class="stat-label">Matches</span>
+              </div>
+            </div>
+            <div class="p-4 border-t">
+              <a href="#" class="btn btn-outline w-full" style="color: #3A225D; border-color: #3A225D;">
+                Team Details
+              </a>
+            </div>
+          </div>
+          
+          <!-- More teams would follow the same pattern -->
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="container mx-auto px-4 py-8">
+          <div class="footer-grid">
+            <div>
+              <h3 class="footer-title">
+                <span class="text-ipl-orange">IPL</span> Arena
+              </h3>
+              <p class="footer-text mb-4">
+                Your one-stop destination for all things IPL - watch matches, follow teams, and book tickets for the world's biggest cricket league.
+              </p>
+              <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+            <div>
+              <h3 class="footer-section-title">Quick Links</h3>
+              <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="teams.html">Teams</a></li>
+                <li><a href="matches.html">Matches</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="footer-section-title">Help & Support</h3>
+              <ul class="footer-links">
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Ticket Information</a></li>
+                <li><a href="#">Contact Support</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="footer-section-title">Contact Us</h3>
+              <p class="footer-text mb-2">Email: support@iplarena.com</p>
+              <p class="footer-text mb-2">Phone: +91-8888888888</p>
+              <p class="footer-text">
+                IPL Arena Headquarters<br>
+                Cricket Building, Stadium Road<br>
+                Mumbai, Maharashtra 400001
+              </p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; <span id="current-year"></span> IPL Arena. All rights reserved. This is a demo project.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Toast notification container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
