@@ -8,13 +8,185 @@
     <meta name="description" content="Lovable Generated Project" />
     <meta name="author" content="Lovable" />
 
-    <meta property="og:title" content="Teams - IPL Arena Unleashed" />
-    <meta property="og:description" content="Explore IPL Teams" />
+    <meta property="og:title" content="ipl-arena-unleashed" />
+    <meta property="og:description" content="Lovable Generated Project" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-icons/dist/umd/lucide.min.css">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+      /* Team card specific styles */
+      .team-card {
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+      
+      .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      }
+      
+      .team-card-header {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        position: relative;
+      }
+      
+      .team-logo-container {
+        width: 80px;
+        height: 80px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        padding: 5px;
+      }
+      
+      .team-logo {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      
+      .team-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 0.25rem;
+      }
+      
+      .team-details {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      
+      .team-info {
+        margin-left: 1rem;
+      }
+      
+      .team-stats {
+        display: flex;
+        padding: 1rem;
+        border-top: 1px solid #eee;
+      }
+      
+      .stat {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem 0;
+      }
+      
+      .stat-value {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+        display: block;
+      }
+      
+      .stat-label {
+        font-size: 0.75rem;
+        color: #666;
+        display: block;
+      }
+      
+      .teams-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+      }
+      
+      @media (min-width: 640px) {
+        .teams-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      
+      @media (min-width: 768px) {
+        .teams-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      
+      @media (min-width: 1024px) {
+        .teams-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      
+      @media (min-width: 1280px) {
+        .teams-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .modal-content {
+        background-color: #fff;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        animation: modalFadeIn 0.3s;
+      }
+      
+      .team-details-modal {
+        max-width: 800px;
+      }
+      
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+      }
+      
+      .close-modal:hover {
+        color: #333;
+      }
+      
+      .team-header {
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+      }
+      
+      @keyframes modalFadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
   </head>
 
   <body>
@@ -46,139 +218,17 @@
       </nav>
 
       <!-- Main Content -->
-      <main class="container">
-        <h1 class="text-3xl font-bold mb-8">IPL Teams</h1>
+      <main class="container py-8">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mb-2">IPL Teams</h1>
+          <p class="text-gray-600">
+            All teams competing in the Indian Premier League 2025 season
+          </p>
+        </div>
         
-        <div class="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6 mb-8">
-          <!-- Mumbai Indians -->
-          <div class="card team-card overflow-hidden">
-            <div class="team-card-header" style="background-color: #0078BC;">
-              <div class="team-logo-container">
-                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Medium/MI.png" alt="Mumbai Indians" class="team-logo">
-              </div>
-              <div class="team-info">
-                <h3 class="team-name">Mumbai Indians</h3>
-                <p class="team-details">5x IPL Champions</p>
-              </div>
-            </div>
-            <div class="team-stats">
-              <div class="stat">
-                <span class="stat-value">5</span>
-                <span class="stat-label">Titles</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">2013</span>
-                <span class="stat-label">First Win</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">234</span>
-                <span class="stat-label">Matches</span>
-              </div>
-            </div>
-            <div class="p-4 border-t">
-              <a href="#" class="btn btn-outline w-full" style="color: #0078BC; border-color: #0078BC;">
-                Team Details
-              </a>
-            </div>
-          </div>
-          
-          <!-- Chennai Super Kings -->
-          <div class="card team-card overflow-hidden">
-            <div class="team-card-header" style="background-color: #FFFF00;">
-              <div class="team-logo-container">
-                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Medium/CSK.png" alt="Chennai Super Kings" class="team-logo">
-              </div>
-              <div class="team-info" style="color: #000000;">
-                <h3 class="team-name">Chennai Super Kings</h3>
-                <p class="team-details">5x IPL Champions</p>
-              </div>
-            </div>
-            <div class="team-stats">
-              <div class="stat">
-                <span class="stat-value">5</span>
-                <span class="stat-label">Titles</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">2010</span>
-                <span class="stat-label">First Win</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">212</span>
-                <span class="stat-label">Matches</span>
-              </div>
-            </div>
-            <div class="p-4 border-t">
-              <a href="#" class="btn btn-outline w-full" style="color: #FFFF00; border-color: #FFFF00;">
-                Team Details
-              </a>
-            </div>
-          </div>
-          
-          <!-- Royal Challengers Bangalore -->
-          <div class="card team-card overflow-hidden">
-            <div class="team-card-header" style="background-color: #EC1C24;">
-              <div class="team-logo-container">
-                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/RCB/Logos/Medium/RCB.png" alt="Royal Challengers Bangalore" class="team-logo">
-              </div>
-              <div class="team-info">
-                <h3 class="team-name">Royal Challengers Bangalore</h3>
-                <p class="team-details">0x IPL Champions</p>
-              </div>
-            </div>
-            <div class="team-stats">
-              <div class="stat">
-                <span class="stat-value">0</span>
-                <span class="stat-label">Titles</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">-</span>
-                <span class="stat-label">First Win</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">238</span>
-                <span class="stat-label">Matches</span>
-              </div>
-            </div>
-            <div class="p-4 border-t">
-              <a href="#" class="btn btn-outline w-full" style="color: #EC1C24; border-color: #EC1C24;">
-                Team Details
-              </a>
-            </div>
-          </div>
-          
-          <!-- Kolkata Knight Riders -->
-          <div class="card team-card overflow-hidden">
-            <div class="team-card-header" style="background-color: #3A225D;">
-              <div class="team-logo-container">
-                <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/KKR/Logos/Medium/KKR.png" alt="Kolkata Knight Riders" class="team-logo">
-              </div>
-              <div class="team-info">
-                <h3 class="team-name">Kolkata Knight Riders</h3>
-                <p class="team-details">2x IPL Champions</p>
-              </div>
-            </div>
-            <div class="team-stats">
-              <div class="stat">
-                <span class="stat-value">2</span>
-                <span class="stat-label">Titles</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">2012</span>
-                <span class="stat-label">First Win</span>
-              </div>
-              <div class="stat">
-                <span class="stat-value">230</span>
-                <span class="stat-label">Matches</span>
-              </div>
-            </div>
-            <div class="p-4 border-t">
-              <a href="#" class="btn btn-outline w-full" style="color: #3A225D; border-color: #3A225D;">
-                Team Details
-              </a>
-            </div>
-          </div>
-          
-          <!-- More teams would follow the same pattern -->
+        <!-- Teams Grid -->
+        <div class="teams-grid">
+          <!-- Teams will be populated by JavaScript from script.js -->
         </div>
       </main>
 
@@ -241,8 +291,6 @@
     <!-- Toast notification container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script src="script.js"></script>
   </body>
 </html>

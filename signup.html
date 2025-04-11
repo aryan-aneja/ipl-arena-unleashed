@@ -5,216 +5,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - IPL Arena Unleashed</title>
-    <meta name="description" content="Create your IPL Arena account" />
+    <meta name="description" content="Lovable Generated Project" />
     <meta name="author" content="Lovable" />
 
-    <meta property="og:title" content="Sign Up - IPL Arena Unleashed" />
-    <meta property="og:description" content="Create your IPL Arena account" />
+    <meta property="og:title" content="ipl-arena-unleashed" />
+    <meta property="og:description" content="Lovable Generated Project" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-icons/dist/umd/lucide.min.css">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-      /* Additional styles for signup page */
-      .auth-container {
-        max-width: 450px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-      
-      .auth-card {
-        border-radius: 1rem;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      }
-      
-      .auth-header {
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-      
-      .input-group {
-        position: relative;
-        margin-bottom: 1.5rem;
-      }
-      
-      .input-group input {
-        width: 100%;
-        padding: 0.75rem 1rem 0.75rem 3rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-      
-      .input-group input:focus {
-        outline: none;
-        border-color: var(--ipl-blue);
-        box-shadow: 0 0 0 3px rgba(0, 75, 160, 0.15);
-      }
-      
-      .input-icon {
-        position: absolute;
-        left: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #94a3b8;
-      }
-      
-      .checkbox-group {
-        display: flex;
-        margin-bottom: 1.5rem;
-      }
-      
-      .checkbox-group input {
-        margin-right: 0.5rem;
-        margin-top: 0.25rem;
-      }
-      
-      .checkbox-group label {
-        color: #64748b;
-        font-size: 0.875rem;
-        line-height: 1.5;
-      }
-      
-      .auth-footer {
-        text-align: center;
-        margin-top: 2rem;
-        color: #64748b;
-        font-size: 0.875rem;
-      }
-      
-      .auth-footer a {
-        color: var(--ipl-blue);
-        text-decoration: none;
-        font-weight: 500;
-      }
-      
-      .social-login {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1.5rem;
-      }
-      
-      .social-btn {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        transition: background-color 0.3s;
-        cursor: pointer;
-      }
-      
-      .social-btn:hover {
-        background-color: #f1f5f9;
-      }
-      
-      .social-icon {
-        font-size: 1.25rem;
-      }
-      
-      .google-icon {
-        color: #ea4335;
-      }
-      
-      .facebook-icon {
-        color: #1877f2;
-      }
-      
-      .auth-divider {
-        display: flex;
-        align-items: center;
-        margin: 1.5rem 0;
-      }
-      
-      .divider-line {
-        flex: 1;
-        height: 1px;
-        background-color: #e2e8f0;
-      }
-      
-      .divider-text {
-        padding: 0 1rem;
-        color: #94a3b8;
-        font-size: 0.875rem;
-      }
-
-      .ipl-bg {
-        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://img.freepik.com/free-vector/cricket-stadium-illustration_1284-49978.jpg');
-        background-size: cover;
-        background-position: center;
-        min-height: calc(100vh - 64px - 400px);
-        display: flex;
-        align-items: center;
-      }
-      
-      .dark .input-group input {
-        background-color: #1e293b;
-        border-color: #334155;
-        color: #f8fafc;
-      }
-      
-      .dark .social-btn {
-        background-color: #1e293b;
-        border-color: #334155;
-      }
-      
-      .dark .social-btn:hover {
-        background-color: #0f172a;
-      }
-      
-      .dark .divider-line {
-        background-color: #334155;
-      }
-      
-      .dark .auth-card {
-        background-color: #0f172a;
-      }
-      
-      .form-row {
-        display: flex;
-        gap: 1rem;
-      }
-      
-      .form-row .input-group {
-        flex: 1;
-      }
-      
-      .error-message {
-        background-color: #fee2e2;
-        color: #ef4444;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        margin-bottom: 1rem;
-        font-size: 0.875rem;
-        display: flex;
-        align-items: center;
-        border: 1px solid #fca5a5;
-      }
-      
-      .error-message i {
-        margin-right: 0.5rem;
-      }
-      
-      .dark .error-message {
-        background-color: rgba(239, 68, 68, 0.2);
-        border-color: rgba(239, 68, 68, 0.5);
-      }
-      
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-      }
-      
-      .shake {
-        animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-      }
-    </style>
   </head>
 
   <body>
@@ -234,7 +40,7 @@
             <a href="matches.html" class="navbar-item">Matches</a>
             <div class="navbar-end">
               <a href="login.html" class="btn btn-outline">Login</a>
-              <a href="signup.html" class="btn btn-primary ml-4 active">Sign Up</a>
+              <a href="signup.html" class="navbar-item active">Sign Up</a>
             </div>
           </div>
           <button class="navbar-burger" id="navbar-burger">
@@ -246,97 +52,56 @@
       </nav>
 
       <!-- Main Content -->
-      <main class="ipl-bg">
-        <div class="container">
-          <div class="auth-container">
-            <div class="auth-card card">
-              <div class="p-6">
-                <div class="auth-header">
-                  <h1 class="text-3xl font-bold">Create Account</h1>
-                  <p class="text-gray-600 dark-text-gray-400">Join IPL Arena for the ultimate cricket experience</p>
-                </div>
-                
-                <div id="signup-error" class="error-message" style="display: none;">
-                  <i class="fas fa-exclamation-circle"></i>
-                  <span id="error-text">Please fill out all required fields.</span>
-                </div>
-                
-                <form id="signup-form">
-                  <div class="form-row">
-                    <div class="input-group">
-                      <span class="input-icon">
-                        <i class="fas fa-user"></i>
-                      </span>
-                      <input type="text" id="first-name" placeholder="First name" required>
-                    </div>
-                    
-                    <div class="input-group">
-                      <span class="input-icon">
-                        <i class="fas fa-user"></i>
-                      </span>
-                      <input type="text" id="last-name" placeholder="Last name" required>
-                    </div>
-                  </div>
-                  
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="fas fa-envelope"></i>
-                    </span>
-                    <input type="email" id="signup-email" placeholder="Email address" required>
-                  </div>
-                  
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="fas fa-phone"></i>
-                    </span>
-                    <input type="tel" id="phone" placeholder="Phone number">
-                  </div>
-                  
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="fas fa-lock"></i>
-                    </span>
-                    <input type="password" id="signup-password" placeholder="Password" required>
-                  </div>
-                  
-                  <div class="input-group">
-                    <span class="input-icon">
-                      <i class="fas fa-lock"></i>
-                    </span>
-                    <input type="password" id="confirm-password" placeholder="Confirm password" required>
-                  </div>
-                  
-                  <div class="checkbox-group">
-                    <input type="checkbox" id="terms" required>
-                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
-                  </div>
-                  
-                  <button type="submit" class="btn btn-primary w-full">
-                    Create Account
-                  </button>
-                </form>
-                
-                <div class="auth-divider">
-                  <div class="divider-line"></div>
-                  <span class="divider-text">OR</span>
-                  <div class="divider-line"></div>
-                </div>
-                
-                <div class="social-login">
-                  <button class="social-btn" id="google-signup">
-                    <i class="fab fa-google social-icon google-icon"></i>
-                  </button>
-                  
-                  <button class="social-btn" id="facebook-signup">
-                    <i class="fab fa-facebook-f social-icon facebook-icon"></i>
-                  </button>
-                </div>
-                
-                <div class="auth-footer">
-                  Already have an account? <a href="login.html">Sign in</a>
-                </div>
+      <main class="container py-8">
+        <div class="auth-container">
+          <h2 class="auth-title">Create an Account</h2>
+          <p class="auth-subtitle">Join IPL Arena to book tickets and follow your favorite teams</p>
+          
+          <form id="signup-form" class="auth-form">
+            <div class="grid grid-cols-1 md-grid-cols-2 gap-4">
+              <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" class="form-control" placeholder="Enter your first name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" class="form-control" placeholder="Enter your last name" required>
               </div>
             </div>
+            
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" class="form-control" placeholder="Create a password" required minlength="6">
+              <small class="text-gray-500">Password must be at least 6 characters</small>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+            </div>
+            
+            <div class="form-group">
+              <div class="flex items-center">
+                <input type="checkbox" id="terms" required>
+                <label for="terms" class="ml-2 text-sm">
+                  I agree to the <a href="#" class="text-ipl-blue">Terms of Service</a> and <a href="#" class="text-ipl-blue">Privacy Policy</a>
+                </label>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-full">Create Account</button>
+            
+            <div id="signup-error" class="text-center" style="color: #ef4444; margin-top: 1rem; display: none;"></div>
+          </form>
+          
+          <div class="auth-footer">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
           </div>
         </div>
       </main>
@@ -400,126 +165,58 @@
     <!-- Toast notification container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script src="script.js"></script>
     <script>
-      // Signup form submission
-      document.getElementById('signup-form').addEventListener('submit', function(e) {
-        e.preventDefault();
+      document.addEventListener('DOMContentLoaded', function() {
+        const signupForm = document.getElementById('signup-form');
+        const signupError = document.getElementById('signup-error');
         
-        // Get form values
-        const firstName = document.getElementById('first-name').value.trim();
-        const lastName = document.getElementById('last-name').value.trim();
-        const email = document.getElementById('signup-email').value.trim();
-        const password = document.getElementById('signup-password').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-        const termsChecked = document.getElementById('terms').checked;
-        
-        // Simple validation
-        if (!firstName || !lastName || !email || !password) {
-          showError('Please fill out all required fields.');
-          return;
-        }
-        
-        if (password.length < 6) {
-          showError('Password must be at least 6 characters long.');
-          return;
-        }
-        
-        if (password !== confirmPassword) {
-          showError('Passwords do not match.');
-          return;
-        }
-        
-        if (!termsChecked) {
-          showError('You must agree to the Terms of Service and Privacy Policy.');
-          return;
-        }
-        
-        // Call signup function
-        const result = signupUser(firstName, lastName, email, password);
-        
-        if (result.success) {
-          // Show success toast
-          toast.create({
-            type: 'success',
-            title: 'Registration Successful',
-            message: `Welcome to IPL Arena, ${firstName}!`,
-            duration: 3000
+        if (signupForm) {
+          signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+              signupError.textContent = 'Passwords do not match';
+              signupError.style.display = 'block';
+              return;
+            }
+            
+            // Call signup function from script.js
+            const result = signupUser(firstName, lastName, email, password);
+            
+            if (result.success) {
+              // Show success toast
+              toast.create({
+                type: 'success',
+                title: 'Account Created',
+                message: 'Welcome to IPL Arena! Your account has been created successfully.',
+                duration: 3000
+              });
+              
+              // Redirect to dashboard after a short delay
+              setTimeout(() => {
+                window.location.href = 'index.html';
+              }, 1500);
+            } else {
+              // Show error
+              signupError.textContent = result.error || 'An error occurred during signup';
+              signupError.style.display = 'block';
+            }
           });
-          
-          // Redirect to home page after delay
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1500);
         }
-      });
-      
-      function showError(message) {
-        const errorDiv = document.getElementById('signup-error');
-        const errorText = document.getElementById('error-text');
-        errorText.textContent = message;
-        errorDiv.style.display = 'flex';
         
-        // Shake animation
-        errorDiv.classList.add('shake');
-        setTimeout(() => {
-          errorDiv.classList.remove('shake');
-        }, 500);
-      }
-      
-      // Social signup buttons
-      document.getElementById('google-signup').addEventListener('click', function() {
-        // Simulate Google signup
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('user', JSON.stringify({ 
-          email: 'google.user@example.com',
-          name: 'Google User'
-        }));
-        
-        toast.create({
-          type: 'success',
-          title: 'Registration Successful',
-          message: 'Account created with Google',
-          duration: 3000
-        });
-        
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
-      });
-      
-      document.getElementById('facebook-signup').addEventListener('click', function() {
-        // Simulate Facebook signup
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('user', JSON.stringify({ 
-          email: 'facebook.user@example.com',
-          name: 'Facebook User'
-        }));
-        
-        toast.create({
-          type: 'success',
-          title: 'Registration Successful',
-          message: 'Account created with Facebook',
-          duration: 3000
-        });
-        
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 1500);
-      });
-      
-      // Check if already logged in
-      window.addEventListener('DOMContentLoaded', function() {
+        // Check if already logged in
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (isLoggedIn) {
-          // Redirect to home page if already logged in
           window.location.href = 'index.html';
         }
-        
-        // Update navbar auth status
-        updateNavbarAuthStatus();
       });
     </script>
   </body>

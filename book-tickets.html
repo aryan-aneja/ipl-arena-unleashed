@@ -5,371 +5,180 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Tickets - IPL Arena Unleashed</title>
-    <meta name="description" content="Book tickets for IPL matches" />
+    <meta name="description" content="Lovable Generated Project" />
     <meta name="author" content="Lovable" />
 
-    <meta property="og:title" content="Book Tickets - IPL Arena Unleashed" />
-    <meta property="og:description" content="Book tickets for IPL matches" />
+    <meta property="og:title" content="ipl-arena-unleashed" />
+    <meta property="og:description" content="Lovable Generated Project" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
 
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-icons/dist/umd/lucide.min.css">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-      /* Additional styles for ticket booking page */
-      .match-header {
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://img.freepik.com/free-vector/cricket-stadium-illustration_1284-49978.jpg');
-        background-size: cover;
-        background-position: center;
-        color: white;
-        padding: 3rem 0;
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-      
-      .match-title {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-      
-      .match-info {
-        font-size: 1.125rem;
-        opacity: 0.8;
-      }
-      
-      .team-logo-sm {
-        width: 40px;
-        height: 40px;
-        object-fit: contain;
-        margin: 0 0.5rem;
-      }
-      
-      .ticket-section {
-        border-bottom: 1px solid #e2e8f0;
-        padding-bottom: 2rem;
-        margin-bottom: 2rem;
-      }
-      
-      .section-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-      }
-      
-      .ticket-categories {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: 1rem;
-      }
-      
-      @media (min-width: 768px) {
-        .ticket-categories {
-          grid-template-columns: repeat(3, 1fr);
-        }
-      }
-      
-      .ticket-category {
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-      
-      .ticket-category:hover {
-        border-color: var(--ipl-blue);
-      }
-      
-      .ticket-category.selected {
-        border-color: var(--ipl-blue);
-        box-shadow: 0 0 0 2px rgba(0, 75, 160, 0.2);
-      }
-      
-      .category-name {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 0.25rem;
-      }
-      
-      .category-price {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        color: var(--ipl-blue);
-      }
-      
-      .category-desc {
-        font-size: 0.875rem;
-        color: #64748b;
-      }
-      
-      .available-count {
-        display: inline-block;
-        background-color: #f1f5f9;
-        border-radius: 9999px;
-        padding: 0.25rem 0.75rem;
-        font-size: 0.75rem;
-        color: #64748b;
-        margin-top: 1rem;
-      }
-      
-      .seat-selection {
-        display: flex;
-        gap: 2rem;
-        flex-direction: column;
-      }
-      
-      @media (min-width: 768px) {
-        .seat-selection {
-          flex-direction: row;
-        }
-      }
-      
-      .seat-map {
-        flex: 2;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
-        padding: 1.5rem;
-        overflow-x: auto;
-      }
-      
-      .stadium-layout {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .pitch {
-        width: 200px;
-        height: 60px;
-        background-color: #15803d;
-        margin-bottom: 2rem;
-        border-radius: 100px / 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        border: 2px dashed white;
-      }
-      
-      .seat-legend {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .legend-item {
-        display: flex;
-        align-items: center;
-        font-size: 0.875rem;
-      }
-      
-      .legend-color {
-        width: 16px;
-        height: 16px;
-        border-radius: 4px;
-        margin-right: 0.5rem;
-      }
-      
-      .available {
-        background-color: var(--ipl-green);
-      }
-      
-      .selected {
-        background-color: var(--ipl-blue);
-      }
-      
-      .reserved {
-        background-color: #9ca3af;
-      }
-      
-      .seat-rows {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      
-      .seat-row {
-        display: flex;
-        gap: 0.25rem;
-      }
-      
-      .row-label {
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: #64748b;
-      }
-      
+      /* Additional styles for seat selection */
       .seat {
-        width: 24px;
-        height: 24px;
-        border-radius: 4px;
+        width: 30px;
+        height: 30px;
+        margin: 2px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.75rem;
-        margin: 0.125rem;
+        font-size: 12px;
         cursor: pointer;
-        transition: all 0.2s;
-        color: white;
+        transition: all 0.2s ease;
       }
       
       .seat-available {
-        background-color: var(--ipl-green);
-      }
-      
-      .seat-available:hover {
-        transform: scale(1.05);
+        background-color: #4CAF50;
+        color: white;
       }
       
       .seat-selected {
-        background-color: var(--ipl-blue);
+        background-color: #0078BC;
+        color: white;
         transform: scale(1.1);
       }
       
       .seat-reserved {
-        background-color: #9ca3af;
+        background-color: #9e9e9e;
+        color: white;
         cursor: not-allowed;
       }
       
-      .order-summary {
-        flex: 1;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
-        padding: 1.5rem;
+      /* QR code styles for payment */
+      .qr-code {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
       
-      .summary-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid #e2e8f0;
+      .qr-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 5px;
+        border-radius: 4px;
       }
       
-      .summary-row {
+      .qr-logo {
+        width: 30px;
+        height: 30px;
+      }
+      
+      .payment-apps {
         display: flex;
-        justify-content: space-between;
-        padding: 0.75rem 0;
-        border-bottom: 1px dashed #e2e8f0;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 12px;
       }
       
-      .summary-key {
-        color: #64748b;
-        font-size: 0.875rem;
+      .payment-apps img {
+        height: 20px;
       }
       
-      .summary-value {
-        font-weight: 600;
-      }
-      
-      .summary-total {
-        display: flex;
-        justify-content: space-between;
-        padding-top: 1rem;
-        margin-top: 0.5rem;
-        margin-bottom: 1.5rem;
-        border-top: 1px solid #e2e8f0;
-      }
-      
-      .summary-total-key {
-        font-weight: 600;
-        font-size: 1.125rem;
-      }
-      
-      .summary-total-value {
-        font-weight: 700;
-        font-size: 1.25rem;
-        color: var(--ipl-blue);
-      }
-      
-      .payment-methods {
-        margin-bottom: 1rem;
-      }
-      
-      .payment-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-      }
-      
-      .payment-options {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-      }
-      
-      .payment-option {
-        flex: 1;
-        min-width: 80px;
-        display: flex;
+      /* Modal styles for payment and ticket details */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6);
+        padding: 20px;
         align-items: center;
         justify-content: center;
-        padding: 0.75rem;
-        border: 1px solid #e2e8f0;
-        border-radius: 0.5rem;
+      }
+      
+      .modal-content {
+        background-color: #fff;
+        border-radius: 8px;
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        animation: modalFadeIn 0.3s;
+      }
+      
+      .team-details-modal {
+        max-width: 800px;
+      }
+      
+      .ticket-modal-content {
+        max-width: 450px;
+      }
+      
+      .close-modal {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
         cursor: pointer;
-        transition: border-color 0.3s;
+        color: #999;
       }
       
-      .payment-option:hover,
-      .payment-option.selected {
-        border-color: var(--ipl-blue);
+      .close-modal:hover {
+        color: #333;
       }
       
-      .payment-option i {
-        font-size: 1.5rem;
+      .team-header {
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
       }
       
-      /* Dark mode adjustments */
-      .dark .ticket-category {
-        border-color: #334155;
+      @keyframes modalFadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
       }
       
-      .dark .ticket-category:hover {
-        border-color: #60a5fa;
+      .payment-details {
+        background-color: #f5f5f5;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 6px;
       }
       
-      .dark .ticket-category.selected {
-        border-color: #60a5fa;
-        box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+      .payment-qr-container {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
       }
       
-      .dark .seat-map,
-      .dark .order-summary {
-        border-color: #334155;
+      .ticket-card {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       }
       
-      .dark .available-count {
-        background-color: #1e293b;
-        color: #cbd5e1;
+      .ticket-header {
+        padding: 15px;
+        border-radius: 8px 8px 0 0;
       }
       
-      .dark .category-desc {
-        color: #cbd5e1;
-      }
-      
-      .dark .summary-row {
-        border-bottom-color: #334155;
-      }
-      
-      .dark .summary-title,
-      .dark .summary-total {
-        border-bottom-color: #334155;
-        border-top-color: #334155;
-      }
-      
-      .dark .payment-option {
-        border-color: #334155;
+      .barcode {
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        width: 200px;
       }
     </style>
   </head>
@@ -402,216 +211,60 @@
         </div>
       </nav>
 
-      <!-- Match Header -->
-      <div class="match-header">
-        <div class="container">
-          <div class="match-title">
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/MI/Logos/Medium/MI.png" alt="Mumbai Indians" class="team-logo-sm">
-            Mumbai Indians vs Chennai Super Kings
-            <img src="https://bcciplayerimages.s3.ap-south-1.amazonaws.com/ipl/CSK/logos/Medium/CSK.png" alt="Chennai Super Kings" class="team-logo-sm">
-          </div>
-          <div class="match-info">
-            April 10, 2025 • 7:30 PM • Wankhede Stadium, Mumbai
-          </div>
-        </div>
-      </div>
-
       <!-- Main Content -->
-      <main class="container">
-        <!-- Ticket Category Selection -->
-        <div class="ticket-section">
-          <h2 class="section-title">Select Ticket Category</h2>
-          
-          <div class="ticket-categories">
-            <div class="ticket-category" data-price="1200">
-              <div class="category-name">Premium</div>
-              <div class="category-price">₹1,200</div>
-              <div class="category-desc">Premium seating with excellent view, access to exclusive amenities, and complimentary refreshments.</div>
-              <div class="available-count">142 seats available</div>
+      <main class="container py-8">
+        <div class="mb-8">
+          <a href="matches.html" class="flex items-center text-ipl-blue">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Matches
+          </a>
+        </div>
+        
+        <!-- Match Details -->
+        <div class="card mb-6 p-6">
+          <h1 class="text-2xl font-bold mb-4 match-title">Match Title</h1>
+          <div class="grid grid-cols-1 md-grid-cols-2 gap-4 text-gray-600">
+            <div class="flex items-center">
+              <i class="fa-solid fa-location-dot mr-2 text-gray-500"></i>
+              <span class="match-venue">Match Venue</span>
             </div>
-            
-            <div class="ticket-category selected" data-price="800">
-              <div class="category-name">Gold</div>
-              <div class="category-price">₹800</div>
-              <div class="category-desc">Great view of the action with comfortable seating and easy access to food stalls.</div>
-              <div class="available-count">218 seats available</div>
-            </div>
-            
-            <div class="ticket-category" data-price="500">
-              <div class="category-name">Silver</div>
-              <div class="category-price">₹500</div>
-              <div class="category-desc">Affordable option with decent views and standard amenities.</div>
-              <div class="available-count">356 seats available</div>
+            <div class="flex items-center">
+              <i class="fa-regular fa-calendar mr-2 text-gray-500"></i>
+              <span class="match-date">Match Date & Time</span>
             </div>
           </div>
         </div>
         
         <!-- Seat Selection -->
-        <div class="ticket-section">
-          <h2 class="section-title">Select Your Seats</h2>
+        <div class="card mb-6 p-6">
+          <h2 class="text-xl font-bold mb-4">Select Your Seats</h2>
           
-          <div class="seat-selection">
-            <div class="seat-map">
-              <div class="stadium-layout">
-                <div class="pitch">PITCH</div>
-                
-                <div class="seat-legend">
-                  <div class="legend-item">
-                    <div class="legend-color available"></div>
-                    <span>Available</span>
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color selected"></div>
-                    <span>Selected</span>
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color reserved"></div>
-                    <span>Reserved</span>
-                  </div>
-                </div>
-                
-                <div class="seat-rows">
-                  <!-- Row A -->
-                  <div class="seat-row">
-                    <div class="row-label">A</div>
-                    <div class="seat seat-reserved">1</div>
-                    <div class="seat seat-reserved">2</div>
-                    <div class="seat seat-available">3</div>
-                    <div class="seat seat-available">4</div>
-                    <div class="seat seat-available">5</div>
-                    <div class="seat seat-available">6</div>
-                    <div class="seat seat-reserved">7</div>
-                    <div class="seat seat-reserved">8</div>
-                    <div class="seat seat-available">9</div>
-                    <div class="seat seat-available">10</div>
-                  </div>
-                  
-                  <!-- Row B -->
-                  <div class="seat-row">
-                    <div class="row-label">B</div>
-                    <div class="seat seat-available">1</div>
-                    <div class="seat seat-available">2</div>
-                    <div class="seat seat-selected">3</div>
-                    <div class="seat seat-selected">4</div>
-                    <div class="seat seat-available">5</div>
-                    <div class="seat seat-available">6</div>
-                    <div class="seat seat-available">7</div>
-                    <div class="seat seat-available">8</div>
-                    <div class="seat seat-reserved">9</div>
-                    <div class="seat seat-reserved">10</div>
-                  </div>
-                  
-                  <!-- Row C -->
-                  <div class="seat-row">
-                    <div class="row-label">C</div>
-                    <div class="seat seat-available">1</div>
-                    <div class="seat seat-available">2</div>
-                    <div class="seat seat-available">3</div>
-                    <div class="seat seat-reserved">4</div>
-                    <div class="seat seat-reserved">5</div>
-                    <div class="seat seat-available">6</div>
-                    <div class="seat seat-available">7</div>
-                    <div class="seat seat-available">8</div>
-                    <div class="seat seat-available">9</div>
-                    <div class="seat seat-available">10</div>
-                  </div>
-                  
-                  <!-- Row D -->
-                  <div class="seat-row">
-                    <div class="row-label">D</div>
-                    <div class="seat seat-available">1</div>
-                    <div class="seat seat-available">2</div>
-                    <div class="seat seat-available">3</div>
-                    <div class="seat seat-available">4</div>
-                    <div class="seat seat-available">5</div>
-                    <div class="seat seat-reserved">6</div>
-                    <div class="seat seat-reserved">7</div>
-                    <div class="seat seat-available">8</div>
-                    <div class="seat seat-available">9</div>
-                    <div class="seat seat-available">10</div>
-                  </div>
-                  
-                  <!-- Row E -->
-                  <div class="seat-row">
-                    <div class="row-label">E</div>
-                    <div class="seat seat-reserved">1</div>
-                    <div class="seat seat-reserved">2</div>
-                    <div class="seat seat-available">3</div>
-                    <div class="seat seat-available">4</div>
-                    <div class="seat seat-available">5</div>
-                    <div class="seat seat-available">6</div>
-                    <div class="seat seat-available">7</div>
-                    <div class="seat seat-available">8</div>
-                    <div class="seat seat-available">9</div>
-                    <div class="seat seat-available">10</div>
-                  </div>
-                </div>
+          <div class="bg-gray-100 p-4 rounded-md mb-6">
+            <div class="seat-selection-container">
+              <!-- Seats will be generated here by JavaScript -->
+            </div>
+          </div>
+          
+          <div class="flex flex-col md-flex-row justify-between items-center bg-gray-50 p-4 rounded-lg">
+            <div class="mb-4 md-mb-0">
+              <div class="flex items-center mb-2">
+                <div class="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                <span class="text-sm">Available</span>
+              </div>
+              <div class="flex items-center mb-2">
+                <div class="w-4 h-4 bg-ipl-blue rounded mr-2"></div>
+                <span class="text-sm">Selected</span>
+              </div>
+              <div class="flex items-center">
+                <div class="w-4 h-4 bg-gray-400 rounded mr-2"></div>
+                <span class="text-sm">Reserved</span>
               </div>
             </div>
             
-            <div class="order-summary">
-              <h3 class="summary-title">Order Summary</h3>
-              
-              <div class="summary-row">
-                <div class="summary-key">Match</div>
-                <div class="summary-value">MI vs CSK</div>
-              </div>
-              
-              <div class="summary-row">
-                <div class="summary-key">Date & Time</div>
-                <div class="summary-value">Apr 10, 2025 • 7:30 PM</div>
-              </div>
-              
-              <div class="summary-row">
-                <div class="summary-key">Venue</div>
-                <div class="summary-value">Wankhede Stadium</div>
-              </div>
-              
-              <div class="summary-row">
-                <div class="summary-key">Category</div>
-                <div class="summary-value">Gold</div>
-              </div>
-              
-              <div class="summary-row">
-                <div class="summary-key">Seats</div>
-                <div class="summary-value">B3, B4</div>
-              </div>
-              
-              <div class="summary-row">
-                <div class="summary-key">Price (₹800 x 2)</div>
-                <div class="summary-value">₹1,600</div>
-              </div>
-              
-              <div class="summary-row">
-                <div class="summary-key">Convenience Fee</div>
-                <div class="summary-value">₹100</div>
-              </div>
-              
-              <div class="summary-total">
-                <div class="summary-total-key">Total</div>
-                <div class="summary-total-value">₹1,700</div>
-              </div>
-              
-              <div class="payment-methods">
-                <label class="payment-label">Select Payment Method</label>
-                <div class="payment-options">
-                  <div class="payment-option selected">
-                    <i class="fas fa-credit-card"></i>
-                  </div>
-                  <div class="payment-option">
-                    <i class="fab fa-cc-paypal"></i>
-                  </div>
-                  <div class="payment-option">
-                    <i class="fas fa-money-bill-wave"></i>
-                  </div>
-                  <div class="payment-option">
-                    <i class="fab fa-google-pay"></i>
-                  </div>
-                </div>
-              </div>
-              
-              <button class="btn btn-primary w-full" id="proceed-to-pay">
-                Proceed to Pay
+            <div class="booking-summary text-center md-text-right">
+              <p class="text-sm mb-1">Selected: <span id="seat-count" class="font-bold">0</span> seats</p>
+              <p class="text-lg font-bold mb-3">Total: <span id="total-price">₹0</span></p>
+              <button id="confirm-booking" class="btn btn-primary" disabled>
+                Proceed to Payment
               </button>
             </div>
           </div>
@@ -677,133 +330,6 @@
     <!-- Toast notification container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script src="script.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Ticket category selection
-        const ticketCategories = document.querySelectorAll('.ticket-category');
-        const categorySummary = document.querySelector('.summary-row:nth-child(4) .summary-value');
-        const priceSummary = document.querySelector('.summary-row:nth-child(6) .summary-value');
-        const totalSummary = document.querySelector('.summary-total-value');
-        
-        ticketCategories.forEach(function(category) {
-          category.addEventListener('click', function() {
-            // Remove selected class from all categories
-            ticketCategories.forEach(function(cat) {
-              cat.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked category
-            this.classList.add('selected');
-            
-            // Update order summary
-            const categoryName = this.querySelector('.category-name').textContent;
-            const price = parseInt(this.getAttribute('data-price'));
-            
-            categorySummary.textContent = categoryName;
-            
-            // Assuming we have 2 seats selected
-            priceSummary.textContent = `₹${price * 2}`;
-            
-            // Add convenience fee
-            const convenienceFee = 100;
-            totalSummary.textContent = `₹${price * 2 + convenienceFee}`;
-          });
-        });
-        
-        // Seat selection
-        const availableSeats = document.querySelectorAll('.seat-available');
-        const selectedSeatsElem = document.querySelector('.summary-row:nth-child(5) .summary-value');
-        let selectedSeats = ['B3', 'B4']; // Default selected seats
-        
-        availableSeats.forEach(function(seat) {
-          seat.addEventListener('click', function() {
-            const seatId = this.textContent;
-            const rowId = this.parentElement.querySelector('.row-label').textContent;
-            const seatFullId = rowId + seatId;
-            
-            if (this.classList.contains('seat-selected')) {
-              // Deselect seat
-              this.classList.remove('seat-selected');
-              this.classList.add('seat-available');
-              
-              // Remove from selected seats array
-              const index = selectedSeats.indexOf(seatFullId);
-              if (index > -1) {
-                selectedSeats.splice(index, 1);
-              }
-            } else {
-              // Select seat (max 4)
-              if (selectedSeats.length < 4) {
-                this.classList.remove('seat-available');
-                this.classList.add('seat-selected');
-                selectedSeats.push(seatFullId);
-              } else {
-                toast.create({
-                  type: 'info',
-                  title: 'Maximum Seats',
-                  message: 'You can select a maximum of 4 seats per order.',
-                  duration: 3000
-                });
-              }
-            }
-            
-            // Sort selected seats for display
-            selectedSeats.sort();
-            selectedSeatsElem.textContent = selectedSeats.join(', ');
-            
-            // Update price in summary
-            const selectedCategory = document.querySelector('.ticket-category.selected');
-            const price = parseInt(selectedCategory.getAttribute('data-price'));
-            
-            priceSummary.textContent = `₹${price * selectedSeats.length}`;
-            
-            // Add convenience fee
-            const convenienceFee = 100;
-            totalSummary.textContent = `₹${price * selectedSeats.length + convenienceFee}`;
-          });
-        });
-        
-        // Payment method selection
-        const paymentOptions = document.querySelectorAll('.payment-option');
-        
-        paymentOptions.forEach(function(option) {
-          option.addEventListener('click', function() {
-            // Remove selected class from all payment options
-            paymentOptions.forEach(function(opt) {
-              opt.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked option
-            this.classList.add('selected');
-          });
-        });
-        
-        // Proceed to pay button
-        document.getElementById('proceed-to-pay').addEventListener('click', function() {
-          if (selectedSeats.length === 0) {
-            toast.create({
-              type: 'error',
-              title: 'No Seats Selected',
-              message: 'Please select at least one seat to continue.',
-              duration: 3000
-            });
-          } else {
-            toast.create({
-              type: 'success',
-              title: 'Booking Successful',
-              message: 'Your tickets have been booked!',
-              duration: 3000
-            });
-            
-            setTimeout(() => {
-              window.location.href = 'index.html';
-            }, 2000);
-          }
-        });
-      });
-    </script>
   </body>
 </html>
