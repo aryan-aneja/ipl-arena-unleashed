@@ -183,6 +183,37 @@
       .form-row .input-group {
         flex: 1;
       }
+      
+      .error-message {
+        background-color: #fee2e2;
+        color: #ef4444;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        border: 1px solid #fca5a5;
+      }
+      
+      .error-message i {
+        margin-right: 0.5rem;
+      }
+      
+      .dark .error-message {
+        background-color: rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.5);
+      }
+      
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      
+      .shake {
+        animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
     </style>
   </head>
 
@@ -225,20 +256,25 @@
                   <p class="text-gray-600 dark-text-gray-400">Join IPL Arena for the ultimate cricket experience</p>
                 </div>
                 
+                <div id="signup-error" class="error-message" style="display: none;">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span id="error-text">Please fill out all required fields.</span>
+                </div>
+                
                 <form id="signup-form">
                   <div class="form-row">
                     <div class="input-group">
                       <span class="input-icon">
                         <i class="fas fa-user"></i>
                       </span>
-                      <input type="text" placeholder="First name" required>
+                      <input type="text" id="first-name" placeholder="First name" required>
                     </div>
                     
                     <div class="input-group">
                       <span class="input-icon">
                         <i class="fas fa-user"></i>
                       </span>
-                      <input type="text" placeholder="Last name" required>
+                      <input type="text" id="last-name" placeholder="Last name" required>
                     </div>
                   </div>
                   
@@ -246,28 +282,28 @@
                     <span class="input-icon">
                       <i class="fas fa-envelope"></i>
                     </span>
-                    <input type="email" placeholder="Email address" required>
+                    <input type="email" id="signup-email" placeholder="Email address" required>
                   </div>
                   
                   <div class="input-group">
                     <span class="input-icon">
                       <i class="fas fa-phone"></i>
                     </span>
-                    <input type="tel" placeholder="Phone number">
+                    <input type="tel" id="phone" placeholder="Phone number">
                   </div>
                   
                   <div class="input-group">
                     <span class="input-icon">
                       <i class="fas fa-lock"></i>
                     </span>
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" id="signup-password" placeholder="Password" required>
                   </div>
                   
                   <div class="input-group">
                     <span class="input-icon">
                       <i class="fas fa-lock"></i>
                     </span>
-                    <input type="password" placeholder="Confirm password" required>
+                    <input type="password" id="confirm-password" placeholder="Confirm password" required>
                   </div>
                   
                   <div class="checkbox-group">
@@ -287,11 +323,11 @@
                 </div>
                 
                 <div class="social-login">
-                  <button class="social-btn">
+                  <button class="social-btn" id="google-signup">
                     <i class="fab fa-google social-icon google-icon"></i>
                   </button>
                   
-                  <button class="social-btn">
+                  <button class="social-btn" id="facebook-signup">
                     <i class="fab fa-facebook-f social-icon facebook-icon"></i>
                   </button>
                 </div>
@@ -372,18 +408,118 @@
       document.getElementById('signup-form').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Simulate signup
+        // Get form values
+        const firstName = document.getElementById('first-name').value.trim();
+        const lastName = document.getElementById('last-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const termsChecked = document.getElementById('terms').checked;
+        
+        // Simple validation
+        if (!firstName || !lastName || !email || !password) {
+          showError('Please fill out all required fields.');
+          return;
+        }
+        
+        if (password.length < 6) {
+          showError('Password must be at least 6 characters long.');
+          return;
+        }
+        
+        if (password !== confirmPassword) {
+          showError('Passwords do not match.');
+          return;
+        }
+        
+        if (!termsChecked) {
+          showError('You must agree to the Terms of Service and Privacy Policy.');
+          return;
+        }
+        
+        // Call signup function
+        const result = signupUser(firstName, lastName, email, password);
+        
+        if (result.success) {
+          // Show success toast
+          toast.create({
+            type: 'success',
+            title: 'Registration Successful',
+            message: `Welcome to IPL Arena, ${firstName}!`,
+            duration: 3000
+          });
+          
+          // Redirect to home page after delay
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        }
+      });
+      
+      function showError(message) {
+        const errorDiv = document.getElementById('signup-error');
+        const errorText = document.getElementById('error-text');
+        errorText.textContent = message;
+        errorDiv.style.display = 'flex';
+        
+        // Shake animation
+        errorDiv.classList.add('shake');
+        setTimeout(() => {
+          errorDiv.classList.remove('shake');
+        }, 500);
+      }
+      
+      // Social signup buttons
+      document.getElementById('google-signup').addEventListener('click', function() {
+        // Simulate Google signup
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user', JSON.stringify({ 
+          email: 'google.user@example.com',
+          name: 'Google User'
+        }));
+        
         toast.create({
           type: 'success',
           title: 'Registration Successful',
-          message: 'Your account has been created!',
+          message: 'Account created with Google',
           duration: 3000
         });
         
-        // Redirect to dashboard after delay
         setTimeout(() => {
           window.location.href = 'index.html';
         }, 1500);
+      });
+      
+      document.getElementById('facebook-signup').addEventListener('click', function() {
+        // Simulate Facebook signup
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user', JSON.stringify({ 
+          email: 'facebook.user@example.com',
+          name: 'Facebook User'
+        }));
+        
+        toast.create({
+          type: 'success',
+          title: 'Registration Successful',
+          message: 'Account created with Facebook',
+          duration: 3000
+        });
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+      });
+      
+      // Check if already logged in
+      window.addEventListener('DOMContentLoaded', function() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+          // Redirect to home page if already logged in
+          window.location.href = 'index.html';
+        }
+        
+        // Update navbar auth status
+        updateNavbarAuthStatus();
       });
     </script>
   </body>

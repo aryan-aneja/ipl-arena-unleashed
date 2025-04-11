@@ -185,6 +185,27 @@
       .dark .auth-card {
         background-color: #0f172a;
       }
+      
+      .error-message {
+        background-color: #fee2e2;
+        color: #ef4444;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        border: 1px solid #fca5a5;
+      }
+      
+      .error-message i {
+        margin-right: 0.5rem;
+      }
+      
+      .dark .error-message {
+        background-color: rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.5);
+      }
     </style>
   </head>
 
@@ -227,19 +248,24 @@
                   <p class="text-gray-600 dark-text-gray-400">Sign in to access your IPL Arena account</p>
                 </div>
                 
+                <div id="login-error" class="error-message" style="display: none;">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span id="error-text">Invalid email or password. Please try again.</span>
+                </div>
+                
                 <form id="login-form">
                   <div class="input-group">
                     <span class="input-icon">
                       <i class="fas fa-envelope"></i>
                     </span>
-                    <input type="email" placeholder="Email address" required>
+                    <input type="email" id="login-email" placeholder="Email address" required>
                   </div>
                   
                   <div class="input-group">
                     <span class="input-icon">
                       <i class="fas fa-lock"></i>
                     </span>
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
                   </div>
                   
                   <div class="login-options">
@@ -263,17 +289,21 @@
                 </div>
                 
                 <div class="social-login">
-                  <button class="social-btn">
+                  <button class="social-btn" id="google-login">
                     <i class="fab fa-google social-icon google-icon"></i>
                   </button>
                   
-                  <button class="social-btn">
+                  <button class="social-btn" id="facebook-login">
                     <i class="fab fa-facebook-f social-icon facebook-icon"></i>
                   </button>
                 </div>
                 
                 <div class="auth-footer">
                   Don't have an account? <a href="signup.html">Sign up</a>
+                </div>
+                
+                <div class="mt-4 text-center text-sm text-gray-500">
+                  <p>Hint: Use email: user@example.com / password: password123</p>
                 </div>
               </div>
             </div>
@@ -348,18 +378,92 @@
       document.getElementById('login-form').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Simulate login
+        // Get form values
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        // Call login function
+        const result = loginUser(email, password);
+        
+        if (result.success) {
+          // Show success toast
+          toast.create({
+            type: 'success',
+            title: 'Login Successful',
+            message: `Welcome back, ${result.user.name}!`,
+            duration: 3000
+          });
+          
+          // Redirect to home page after delay
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1500);
+        } else {
+          // Show error message
+          const errorDiv = document.getElementById('login-error');
+          const errorText = document.getElementById('error-text');
+          errorText.textContent = result.error;
+          errorDiv.style.display = 'flex';
+          
+          // Shake animation
+          errorDiv.classList.add('shake');
+          setTimeout(() => {
+            errorDiv.classList.remove('shake');
+          }, 500);
+        }
+      });
+      
+      // Social login buttons
+      document.getElementById('google-login').addEventListener('click', function() {
+        // Simulate Google login
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user', JSON.stringify({ 
+          email: 'google.user@example.com',
+          name: 'Google User'
+        }));
+        
         toast.create({
           type: 'success',
           title: 'Login Successful',
-          message: 'Redirecting to dashboard...',
+          message: 'Logged in with Google',
           duration: 3000
         });
         
-        // Redirect to dashboard after delay
         setTimeout(() => {
           window.location.href = 'index.html';
         }, 1500);
+      });
+      
+      document.getElementById('facebook-login').addEventListener('click', function() {
+        // Simulate Facebook login
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('user', JSON.stringify({ 
+          email: 'facebook.user@example.com',
+          name: 'Facebook User'
+        }));
+        
+        toast.create({
+          type: 'success',
+          title: 'Login Successful',
+          message: 'Logged in with Facebook',
+          duration: 3000
+        });
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+      });
+      
+      // Check if already logged in
+      window.addEventListener('DOMContentLoaded', function() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+          // Redirect to home page if already logged in
+          window.location.href = 'index.html';
+        }
+        
+        // Update navbar auth status
+        updateNavbarAuthStatus();
       });
     </script>
   </body>

@@ -1,4 +1,3 @@
-
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
   // Set current year in footer
@@ -25,16 +24,18 @@ function initializeThemeToggle() {
     document.body.classList.remove('dark');
   }
   
-  // Toggle theme on button click
-  toggleThemeBtn.addEventListener('click', function() {
-    if (document.body.classList.contains('dark')) {
-      document.body.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.body.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    }
-  });
+  // Check if the toggle button exists before adding event listener
+  if (toggleThemeBtn) {
+    toggleThemeBtn.addEventListener('click', function() {
+      if (document.body.classList.contains('dark')) {
+        document.body.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  }
 }
 
 // Mobile navbar toggle
@@ -42,15 +43,17 @@ function initializeNavbarToggle() {
   const burger = document.getElementById('navbar-burger');
   const menu = document.getElementById('navbar-menu');
   
-  burger.addEventListener('click', function() {
-    menu.classList.toggle('active');
-    
-    // Toggle burger animation
-    const spans = burger.querySelectorAll('span');
-    spans.forEach(function(span, index) {
-      span.classList.toggle('active');
+  if (burger && menu) {
+    burger.addEventListener('click', function() {
+      menu.classList.toggle('active');
+      
+      // Toggle burger animation
+      const spans = burger.querySelectorAll('span');
+      spans.forEach(function(span, index) {
+        span.classList.toggle('active');
+      });
     });
-  });
+  }
 }
 
 // Tab system for dashboard
@@ -79,8 +82,11 @@ function initializeTabSystem() {
     });
   });
   
-  // Initialize with the first tab active
-  document.querySelector('.tab-item').click();
+  // Initialize with the first tab active if it exists
+  const firstTab = document.querySelector('.tab-item');
+  if (firstTab) {
+    firstTab.click();
+  }
 }
 
 // Set up team details button event
@@ -138,16 +144,18 @@ const toast = {
     
     // Add to container
     const container = document.getElementById('toast-container');
-    container.appendChild(toastEl);
-    
-    // Add close event
-    const closeBtn = toastEl.querySelector('.toast-close');
-    closeBtn.addEventListener('click', function() {
-      closeToast(toastEl);
-    });
-    
-    // Auto close after duration
-    setTimeout(() => closeToast(toastEl), duration);
+    if (container) {
+      container.appendChild(toastEl);
+      
+      // Add close event
+      const closeBtn = toastEl.querySelector('.toast-close');
+      closeBtn.addEventListener('click', function() {
+        closeToast(toastEl);
+      });
+      
+      // Auto close after duration
+      setTimeout(() => closeToast(toastEl), duration);
+    }
     
     return toastEl;
   }
@@ -256,4 +264,132 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
+
+  // Update navbar based on login status
+  updateNavbarAuthStatus();
+  
+  // Check if we're on the index page and user is logged in, show welcome message
+  displayWelcomeMessage();
 });
+
+// Authentication related functions
+function loginUser(email, password) {
+  // In a real app, we would validate with a server
+  // For demo, we'll use hardcoded values
+  const validUsers = [
+    { email: 'user@example.com', password: 'password123', name: 'Demo User' },
+    { email: 'john@example.com', password: 'john123', name: 'John Smith' },
+    { email: 'jane@example.com', password: 'jane123', name: 'Jane Doe' }
+  ];
+  
+  const user = validUsers.find(u => u.email === email && u.password === password);
+  
+  if (user) {
+    // Store user info in localStorage
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('user', JSON.stringify({ 
+      email: user.email,
+      name: user.name
+    }));
+    
+    return { success: true, user };
+  }
+  
+  return { success: false, error: 'Invalid email or password' };
+}
+
+function signupUser(firstName, lastName, email, password) {
+  // In a real app, we would send this data to a server
+  // For demo, we'll just save to localStorage
+  
+  localStorage.setItem('isLoggedIn', 'true');
+  localStorage.setItem('user', JSON.stringify({
+    email: email,
+    name: firstName + ' ' + lastName
+  }));
+  
+  return { success: true };
+}
+
+function logoutUser() {
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('user');
+  
+  // Update navbar
+  updateNavbarAuthStatus();
+  
+  // Redirect to home page
+  window.location.href = 'index.html';
+}
+
+function updateNavbarAuthStatus() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const navbarEnd = document.querySelector('.navbar-end');
+  
+  if (navbarEnd) {
+    if (isLoggedIn) {
+      try {
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        const userName = userData.name || 'User';
+        
+        navbarEnd.innerHTML = `
+          <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+          <button id="logout-btn" class="btn btn-primary ml-4">Logout</button>
+        `;
+        
+        // Add logout event listener
+        document.getElementById('logout-btn').addEventListener('click', logoutUser);
+      } catch (e) {
+        console.error('Error parsing user data', e);
+        // Reset to login/signup if there's an error
+        resetNavbarToLoggedOut(navbarEnd);
+      }
+    } else {
+      resetNavbarToLoggedOut(navbarEnd);
+    }
+  }
+}
+
+function resetNavbarToLoggedOut(navbarEnd) {
+  navbarEnd.innerHTML = `
+    <a href="login.html" class="btn btn-outline">Login</a>
+    <a href="signup.html" class="btn btn-primary ml-4">Sign Up</a>
+  `;
+}
+
+function displayWelcomeMessage() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const welcomeSection = document.getElementById('welcome-section');
+  
+  if (welcomeSection && isLoggedIn) {
+    try {
+      const userData = JSON.parse(localStorage.getItem('user') || '{}');
+      const userName = userData.name || 'Cricket Fan';
+      
+      const welcomeMessage = document.createElement('div');
+      welcomeMessage.className = 'welcome-message';
+      welcomeMessage.innerHTML = `
+        <div class="container mx-auto px-4 py-4">
+          <div class="bg-gradient-to-r from-ipl-blue to-ipl-orange p-4 rounded-lg text-white">
+            <h2 class="text-xl font-bold">Welcome back, ${userName}! 👋</h2>
+            <p>Get ready for an exciting IPL 2025 season!</p>
+          </div>
+        </div>
+      `;
+      
+      // Insert after the hero section if it exists
+      const heroSection = document.querySelector('.hero');
+      if (heroSection) {
+        heroSection.parentNode.insertBefore(welcomeMessage, heroSection.nextSibling);
+      } else {
+        // Otherwise insert at the beginning of the main content
+        const mainContent = document.querySelector('main');
+        if (mainContent) {
+          mainContent.insertBefore(welcomeMessage, mainContent.firstChild);
+        }
+      }
+    } catch (e) {
+      console.error('Error displaying welcome message', e);
+    }
+  }
+}
