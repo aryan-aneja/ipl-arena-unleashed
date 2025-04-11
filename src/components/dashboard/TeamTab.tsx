@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Trophy, MapPin, Users, Award, Calendar } from 'lucide-react';
 import TeamCard from '@/components/TeamCard';
 
 interface Team {
@@ -34,27 +35,63 @@ const TeamTab: React.FC<TeamTabProps> = ({ favoriteTeam, isDarkMode }) => {
           <TeamCard {...favoriteTeam} />
           
           <Card className={`p-6 ${isDarkMode ? 'bg-gray-800 border-gray-700' : ''}`}>
-            <h4 className="text-lg font-bold mb-3">Team Information</h4>
-            <div className="space-y-3">
-              <div className="grid grid-cols-2">
-                <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Owner:</div>
-                <div>{favoriteTeam.owner}</div>
+            <h4 className="text-lg font-bold mb-4 flex items-center">
+              <Trophy size={18} className="mr-2" style={{ color: favoriteTeam.primaryColor }} />
+              Team Information
+            </h4>
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <Users size={16} className={`mr-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} w-24`}>Owner:</div>
+                <div className="font-medium">{favoriteTeam.owner}</div>
               </div>
-              <div className="grid grid-cols-2">
-                <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Home Ground:</div>
-                <div>{favoriteTeam.homeGround}</div>
+              <div className="flex items-center">
+                <MapPin size={16} className={`mr-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} w-24`}>Home Ground:</div>
+                <div className="font-medium">{favoriteTeam.homeGround}</div>
               </div>
-              <div className="grid grid-cols-2">
-                <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Championships:</div>
-                <div>{favoriteTeam.titles}</div>
+              <div className="flex items-center">
+                <Award size={16} className={`mr-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                <div className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'} w-24`}>Championships:</div>
+                <div className="font-medium">{favoriteTeam.titles}</div>
               </div>
-              <h5 className="font-medium mt-4 mb-2">Key Players</h5>
-              <div className="flex flex-wrap gap-2">
-                {favoriteTeam.players?.map((player, i) => (
-                  <span key={i} className="bg-ipl-blue/10 text-ipl-blue px-2 py-1 rounded-full text-sm">
-                    {player}
-                  </span>
-                ))}
+              
+              <div className="pt-2">
+                <h5 className="font-medium mb-3 flex items-center">
+                  <Users size={16} className="mr-2" style={{ color: favoriteTeam.primaryColor }} />
+                  Key Players
+                </h5>
+                <div className="grid grid-cols-2 gap-2">
+                  {favoriteTeam.players?.map((player, i) => (
+                    <div 
+                      key={i} 
+                      className="flex items-center bg-ipl-blue/10 text-ipl-blue px-3 py-2 rounded-md"
+                      style={{ backgroundColor: `${favoriteTeam.primaryColor}15`, color: favoriteTeam.primaryColor }}
+                    >
+                      <span className="w-5 h-5 rounded-full bg-white mr-2 flex items-center justify-center text-xs" style={{ color: favoriteTeam.primaryColor }}>
+                        {i+1}
+                      </span>
+                      {player}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="pt-3">
+                <p className="text-sm leading-relaxed">
+                  {favoriteTeam.description || `${favoriteTeam.name} is one of the premier teams in the IPL. Follow their journey throughout the season!`}
+                </p>
+                <Link to={`/teams/${favoriteTeam.id}`}>
+                  <Button 
+                    className="mt-4 w-full"
+                    style={{ 
+                      backgroundColor: favoriteTeam.primaryColor,
+                      color: '#ffffff'
+                    }}
+                  >
+                    View Complete Team Profile
+                  </Button>
+                </Link>
               </div>
             </div>
           </Card>

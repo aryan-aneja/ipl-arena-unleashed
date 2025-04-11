@@ -118,9 +118,12 @@ const TeamCard: React.FC<TeamCardProps> = ({
         </div>
         <Link to={`/teams/${id}`}>
           <Button 
-            variant="ghost" 
-            className="w-full flex items-center justify-between hover:bg-ipl-blue/10"
-            style={{ color: primaryColor }}
+            className="w-full flex items-center justify-between hover:bg-opacity-90 transition-all transform hover:scale-[1.02]"
+            style={{ 
+              backgroundColor: primaryColor,
+              color: '#ffffff',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+            }}
           >
             <span>Team Details</span>
             <ChevronRight size={16} />
