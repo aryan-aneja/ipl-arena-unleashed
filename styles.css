@@ -1,3 +1,4 @@
+
 /* Global Styles */
 :root {
   --ipl-blue: #0078BC;
@@ -1164,4 +1165,5 @@ body.dark .form-control:focus {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
   padding: 0.5rem 0;
-  margin-top: 0.5rem
+  margin-top: 0.5rem;
+}
